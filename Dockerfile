@@ -16,7 +16,7 @@ RUN apt-get -y install vim
 ARG RUNNER_VERSION="2.311.0"
 
 # update the base packages and add a non-sudo user
-RUN apt-get update -y && apt-get upgrade -y && useradd -m docker\
+RUN apt-get update -y && apt-get upgrade -y && useradd -m docker \
     echo 'docker ALL=(ALL) NOPASSWD:ALL' | tee -a /etc/sudoers
 
 # install python and the packages the your code depends on along with jq so we can parse JSON
