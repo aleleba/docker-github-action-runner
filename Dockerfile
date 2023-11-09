@@ -1,6 +1,17 @@
 # base
 FROM ubuntu:22.04
 
+# Update Package
+RUN apt-get update
+# Install apt-utils
+RUN apt-get install -y --no-install-recommends apt-utils
+# Install Sudo
+RUN apt-get -y install sudo
+# Install Curl
+RUN apt-get -y install curl
+# Install VIM
+RUN apt-get -y install vim
+
 # set the github runner version
 ARG RUNNER_VERSION="2.311.0"
 
