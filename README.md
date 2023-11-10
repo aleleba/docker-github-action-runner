@@ -1,3 +1,3 @@
 # Docker Github Action Runner
 
-## Version 1.0.7
+## Version 1.0.8

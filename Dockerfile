@@ -18,7 +18,7 @@ ARG RUNNER_VERSION="2.311.0"
 # update the base packages, add a non-sudo user, and install Xvfb
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y xvfb libglib2.0-0 && \
+    apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb && \
     useradd -m docker && \
     echo 'docker ALL=(ALL) NOPASSWD:ALL' | tee -a /etc/sudoers
 
