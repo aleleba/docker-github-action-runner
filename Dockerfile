@@ -15,6 +15,13 @@ RUN apt-get -y install vim
 # set the github runner version
 ARG RUNNER_VERSION="2.311.0"
 
+# update the base packages, add a non-sudo user, and install Xvfb
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb && \
+    useradd -m docker && \
+    echo 'docker ALL=(ALL) NOPASSWD:ALL' | tee -a /etc/sudoers
+
 #Installing Docker
 # Let's start with some basic stuff.
 RUN sudo apt-get update -qq && sudo apt-get install -qqy \
@@ -27,15 +34,8 @@ RUN sudo apt-get update -qq && sudo apt-get install -qqy \
 RUN curl -sSL https://get.docker.com/ | sh
 # Define additional metadata for our image.
 VOLUME /var/lib/docker
-RUN sudo usermod -aG docker coder
+RUN sudo usermod -aG docker docker
 #Finishing Installing Docker
-
-# update the base packages, add a non-sudo user, and install Xvfb
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb && \
-    useradd -m docker && \
-    echo 'docker ALL=(ALL) NOPASSWD:ALL' | tee -a /etc/sudoers
 
 # install python and the packages the your code depends on along with jq so we can parse JSON
 # add additional packages as necessary
