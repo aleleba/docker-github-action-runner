@@ -56,14 +56,14 @@ COPY start.sh start.sh
 # make the script executable
 RUN chmod +x start.sh
 
+# since the config and run script for actions are not allowed to be run by root,
+# set the user to "docker" so all subsequent commands are run as the docker user
+USER docker
+
 # Install the magic wrapper.
 ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
 RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
 RUN sudo sed -i "2 i\exec sudo /usr/local/bin/wrapdocker.sh &" start.sh
-
-# since the config and run script for actions are not allowed to be run by root,
-# set the user to "docker" so all subsequent commands are run as the docker user
-USER docker
 
 # set the entrypoint to the start.sh script
 ENTRYPOINT ["./start.sh"]
