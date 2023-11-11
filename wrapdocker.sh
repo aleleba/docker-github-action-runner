@@ -4,6 +4,10 @@ if [[ -z "${HOME_USER}" ]]; then
     HOME_USER="docker"
 fi
 
+#Ensure that the iptables legacy binary is used instead of the iptables-nft variant
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+
 # Ensure that all nodes in /dev/mapper correspond to mapped devices currently loaded by the device-mapper kernel driver
 dmsetup mknodes
 
@@ -112,8 +116,6 @@ else
 		fi
 		sleep 1
 	done
-	sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-	sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 	sudo chmod -R a+rwX /var/run/docker.sock
 	sudo su - ${HOME_USER} -c "sudo usermod -aG docker ${HOME_USER}"
 	[[ $1 ]] && exec "$@"
