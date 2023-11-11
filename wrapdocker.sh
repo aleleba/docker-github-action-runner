@@ -112,6 +112,8 @@ else
 		fi
 		sleep 1
 	done
+	sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+	sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 	sudo chmod -R a+rwX /var/run/docker.sock
 	sudo su - ${HOME_USER} -c "sudo usermod -aG docker ${HOME_USER}"
 	[[ $1 ]] && exec "$@"
