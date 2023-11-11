@@ -15,6 +15,21 @@ RUN apt-get -y install vim
 # set the github runner version
 ARG RUNNER_VERSION="2.311.0"
 
+#Installing Docker
+# Let's start with some basic stuff.
+RUN sudo apt-get update -qq && sudo apt-get install -qqy \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    lxc \
+    iptables   
+# Install Docker from Docker Inc. repositories.
+RUN curl -sSL https://get.docker.com/ | sh
+# Define additional metadata for our image.
+VOLUME /var/lib/docker
+RUN sudo usermod -aG docker coder
+#Finishing Installing Docker
+
 # update the base packages, add a non-sudo user, and install Xvfb
 RUN apt-get update -y && \
     apt-get upgrade -y && \
@@ -40,6 +55,11 @@ COPY start.sh start.sh
 
 # make the script executable
 RUN chmod +x start.sh
+
+# Install the magic wrapper.
+ADD ./wrapdocker.sh /usr/local/bin/wrapdocker.sh
+RUN sudo chmod +x /usr/local/bin/wrapdocker.sh
+RUN sudo sed -i "2 i\exec sudo /usr/local/bin/wrapdocker.sh &" start.sh
 
 # since the config and run script for actions are not allowed to be run by root,
 # set the user to "docker" so all subsequent commands are run as the docker user
