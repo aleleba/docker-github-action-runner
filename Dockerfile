@@ -34,7 +34,7 @@ RUN sudo apt-get update -qq && sudo apt-get install -qqy \
 RUN curl -sSL https://get.docker.com/ | sh
 # Define additional metadata for our image.
 VOLUME /var/lib/docker
-RUN sudo usermod -aG docker docker
+#RUN sudo usermod -aG docker docker
 #Finishing Installing Docker
 
 # install python and the packages the your code depends on along with jq so we can parse JSON

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -z "${HOME_USER}" ]]; then
+    HOME_USER="docker"
+fi
+
 # Ensure that all nodes in /dev/mapper correspond to mapped devices currently loaded by the device-mapper kernel driver
 dmsetup mknodes
 
@@ -108,6 +112,8 @@ else
 		fi
 		sleep 1
 	done
+	sudo chmod -R a+rwX /var/run/docker.sock
+	sudo su - ${HOME_USER} -c "sudo usermod -aG docker ${HOME_USER}"
 	[[ $1 ]] && exec "$@"
 	exec bash --login
 fi
