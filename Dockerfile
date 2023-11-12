@@ -37,6 +37,12 @@ VOLUME /var/lib/docker
 #RUN sudo usermod -aG docker docker
 #Finishing Installing Docker
 
+#Install Docker Compose
+RUN sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+RUN sudo chmod +x /usr/local/bin/docker-compose
+RUN docker-compose --version
+#Finishing Installing Docker Compose
+
 # install python and the packages the your code depends on along with jq so we can parse JSON
 # add additional packages as necessary
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
