@@ -37,6 +37,14 @@ VOLUME /var/lib/docker
 #RUN sudo usermod -aG docker docker
 #Finishing Installing Docker
 
+#Install kubectl
+RUN sudo apt-get update && sudo apt-get install
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+RUN sudo apt-get update
+RUN sudo apt-get install -y kubectl
+#Finishing Instaling kubectl
+
 #Install Docker Compose
 RUN sudo curl -L https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 RUN sudo chmod +x /usr/local/bin/docker-compose
